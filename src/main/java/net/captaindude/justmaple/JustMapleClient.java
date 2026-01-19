@@ -12,9 +12,9 @@ import net.minecraft.client.render.RenderLayer;
 public class JustMapleClient implements ClientModInitializer {
 	@Override
 	public void onInitializeClient() {
-		JustMaple.LOGGER.info("Hello from JustMaple client side!");
 		// This entrypoint is suitable for setting up client-specific logic, such as rendering.
 		BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.MAPLE_SAPLING, RenderLayer.getCutout());
+		BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.FALLEN_MAPLE_LEAVES, RenderLayer.getCutout());
 		
 		// Registers maple leaves particle
 		ParticleFactoryRegistry.getInstance().register(

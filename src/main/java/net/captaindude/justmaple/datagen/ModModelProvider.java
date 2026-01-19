@@ -22,11 +22,13 @@ public class ModModelProvider extends FabricModelProvider{
 
         blockStateModelGenerator.registerSimpleCubeAll(ModBlocks.MAPLE_PLANKS);
         blockStateModelGenerator.registerSingleton(ModBlocks.MAPLE_LEAVES, TexturedModel.LEAVES);
+
+        blockStateModelGenerator.registerFlowerbed(ModBlocks.FALLEN_MAPLE_LEAVES);
     }
 
     @Override
     public void generateItemModels(ItemModelGenerator itemModelGenerator) {
-        
+        // itemModelGenerator.register(ModBlocks.FALLEN_MAPLE_LEAVES.asItem(), Models.GENERATED);
     }
 
 }

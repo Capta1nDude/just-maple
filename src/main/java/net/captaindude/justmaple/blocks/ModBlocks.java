@@ -6,6 +6,7 @@ import net.captaindude.justmaple.worldgen.tree.ModSaplingGenerators;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
+import net.minecraft.block.FlowerbedBlock;
 import net.minecraft.block.PillarBlock;
 import net.minecraft.block.SaplingBlock;
 import net.minecraft.item.BlockItem;
@@ -31,6 +32,9 @@ public class ModBlocks {
     
     public static final Block MAPLE_SAPLING = registerBlock("maple_sapling",
         new SaplingBlock(ModSaplingGenerators.MAPLE, AbstractBlock.Settings.copy(Blocks.OAK_SAPLING).nonOpaque()));
+
+    public static final Block FALLEN_MAPLE_LEAVES = registerBlock("fallen_maple_leaves", 
+        new FlowerbedBlock(AbstractBlock.Settings.copy(Blocks.PINK_PETALS)));
 
 
     // Register block to registry (creates the block in the game)
