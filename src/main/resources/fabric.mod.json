@@ -20,6 +20,9 @@
 		],
 		"fabric-datagen": [
 			"net.captaindude.justmaple.JustMapleDataGenerator"
+		],
+		"client": [
+			"net.captaindude.justmaple.JustMapleClient"
 		]
 	},
 	"mixins": [
