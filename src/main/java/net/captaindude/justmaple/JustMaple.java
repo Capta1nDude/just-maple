@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 
 import net.captaindude.justmaple.blocks.ModBlocks;
 import net.captaindude.justmaple.item.ModItemGroups;
+import net.captaindude.justmaple.worldgen.gen.ModWorldGeneration;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.registry.FlammableBlockRegistry;
 import net.fabricmc.fabric.api.registry.StrippableBlockRegistry;
@@ -37,5 +38,9 @@ public class JustMaple implements ModInitializer {
 		FlammableBlockRegistry.getDefaultInstance().add(ModBlocks.STRIPPED_MAPLE_WOOD, 5, 5);
 		FlammableBlockRegistry.getDefaultInstance().add(ModBlocks.MAPLE_PLANKS, 5, 20);
 		FlammableBlockRegistry.getDefaultInstance().add(ModBlocks.MAPLE_LEAVES, 30, 60);
+
+		ModWorldGeneration.bootstrap();
+
+
 	}
 }

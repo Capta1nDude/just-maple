@@ -5,8 +5,10 @@ import net.captaindude.justmaple.datagen.ModItemTagProvider;
 import net.captaindude.justmaple.datagen.ModLootTableProvider;
 import net.captaindude.justmaple.datagen.ModModelProvider;
 import net.captaindude.justmaple.datagen.ModRegistryDataGenerator;
+import net.captaindude.justmaple.datagen.ModWorldGenerator;
 import net.captaindude.justmaple.worldgen.ModConfiguredFeatures;
 import net.captaindude.justmaple.worldgen.ModPlacedFeatures;
+import net.captaindude.justmaple.worldgen.biome.ModBiomes;
 import net.fabricmc.fabric.api.datagen.v1.DataGeneratorEntrypoint;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.minecraft.registry.RegistryBuilder;
@@ -22,12 +24,13 @@ public class JustMapleDataGenerator implements DataGeneratorEntrypoint {
 		pack.addProvider(ModLootTableProvider::new);
 		pack.addProvider(ModModelProvider::new);
 		pack.addProvider(ModRegistryDataGenerator::new);
+		pack.addProvider(ModWorldGenerator::new);
 	}
 
 	@Override
 	public void buildRegistry(RegistryBuilder registryBuilder) {
-		JustMaple.LOGGER.info("buildRegistry called");
 		registryBuilder.addRegistry(RegistryKeys.CONFIGURED_FEATURE, ModConfiguredFeatures::bootstrap);
 		registryBuilder.addRegistry(RegistryKeys.PLACED_FEATURE, ModPlacedFeatures::bootstrap);
+		registryBuilder.addRegistry(RegistryKeys.BIOME, ModBiomes::bootstrap);
 	}
 }

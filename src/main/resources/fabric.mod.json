@@ -23,6 +23,9 @@
 		],
 		"client": [
 			"net.captaindude.justmaple.JustMapleClient"
+		],
+		"terrablender": [
+			"net.captaindude.justmaple.worldgen.biome.ModTerrablenderAPI"
 		]
 	},
 	"mixins": [
