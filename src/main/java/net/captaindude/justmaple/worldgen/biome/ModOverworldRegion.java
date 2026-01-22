@@ -13,7 +13,8 @@ import net.minecraft.world.biome.source.util.MultiNoiseUtil.NoiseHypercube;
 import terrablender.api.Region;
 import terrablender.api.RegionType;
 
-public class ModOverworldRegion extends Region{
+// TerraBlender region class to add custom biomes to overworld generation
+public class ModOverworldRegion extends Region {
 
     public ModOverworldRegion(Identifier name, int weight) {
         super(name, RegionType.OVERWORLD, weight);
@@ -23,7 +24,10 @@ public class ModOverworldRegion extends Region{
     @Override
     public void addBiomes(Registry<Biome> registry, Consumer<Pair<NoiseHypercube, RegistryKey<Biome>>> mapper) {
         this.addModifiedVanillaOverworldBiomes(mapper, modifiedVanillaOverworldBuilder -> {
-            modifiedVanillaOverworldBuilder.replaceBiome(BiomeKeys.FOREST, ModBiomes.MAPLE_GROVE);
+            modifiedVanillaOverworldBuilder.replaceBiome(BiomeKeys.GROVE, ModBiomes.MAPLE_GROVE);
+        });
+        this.addModifiedVanillaOverworldBiomes(mapper, modifiedVanillaOverworldBuilder -> {
+            modifiedVanillaOverworldBuilder.replaceBiome(BiomeKeys.CHERRY_GROVE, ModBiomes.MAPLE_GROVE);
         });
     }
 

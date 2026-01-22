@@ -8,6 +8,8 @@ public class ModWorldGeneration {
     }
 
     public static void bootstrap() {
+        // Here you can modify biomes to add your features
+
         // // Add maple trees to selected biomes (temporary: everywhere overworld)
         // BiomeModifications.addFeature(
         //         BiomeSelectors.foundInOverworld(),
