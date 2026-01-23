@@ -18,7 +18,6 @@ import net.minecraft.block.SaplingBlock;
 import net.minecraft.block.SlabBlock;
 import net.minecraft.block.StairsBlock;
 import net.minecraft.block.TrapdoorBlock;
-import net.minecraft.block.WallBlock;
 import net.minecraft.block.WoodType;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
@@ -74,10 +73,6 @@ public class ModBlocks {
     // Maple fence gate
     public static final Block MAPLE_FENCE_GATE = registerBlock("maple_fence_gate",
         new FenceGateBlock(WoodType.OAK, AbstractBlock.Settings.create().strength(4f)
-            .requiresTool().sounds(BlockSoundGroup.WOOD)));
-    // Maple wall
-    public static final Block MAPLE_WALL = registerBlock("maple_wall",
-        new WallBlock(AbstractBlock.Settings.create().strength(4f)
             .requiresTool().sounds(BlockSoundGroup.WOOD)));
 
     // Maple door

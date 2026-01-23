@@ -29,7 +29,6 @@ public class ModModelProvider extends FabricModelProvider{
         maplePool.slab(ModBlocks.MAPLE_SLAB);
         maplePool.fence(ModBlocks.MAPLE_FENCE);
         maplePool.fenceGate(ModBlocks.MAPLE_FENCE_GATE);
-        maplePool.wall(ModBlocks.MAPLE_WALL);
         maplePool.button(ModBlocks.MAPLE_BUTTON);
         maplePool.pressurePlate(ModBlocks.MAPLE_PRESSURE_PLATE);
 

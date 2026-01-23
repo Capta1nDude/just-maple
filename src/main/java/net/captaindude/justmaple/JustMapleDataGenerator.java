@@ -4,6 +4,7 @@ import net.captaindude.justmaple.datagen.ModBlockTagProvider;
 import net.captaindude.justmaple.datagen.ModItemTagProvider;
 import net.captaindude.justmaple.datagen.ModLootTableProvider;
 import net.captaindude.justmaple.datagen.ModModelProvider;
+import net.captaindude.justmaple.datagen.ModRecipeProvider;
 import net.captaindude.justmaple.datagen.ModRegistryDataGenerator;
 import net.captaindude.justmaple.datagen.ModWorldGenerator;
 import net.captaindude.justmaple.worldgen.ModConfiguredFeatures;
@@ -25,6 +26,7 @@ public class JustMapleDataGenerator implements DataGeneratorEntrypoint {
 		pack.addProvider(ModModelProvider::new);
 		pack.addProvider(ModRegistryDataGenerator::new);
 		pack.addProvider(ModWorldGenerator::new);
+		pack.addProvider(ModRecipeProvider::new);
 	}
 
 	@Override

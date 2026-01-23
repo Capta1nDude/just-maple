@@ -23,7 +23,6 @@ public class ModItemGroups {
                 entries.add(ModBlocks.MAPLE_SLAB);
                 entries.add(ModBlocks.MAPLE_FENCE);
                 entries.add(ModBlocks.MAPLE_FENCE_GATE);
-                entries.add(ModBlocks.MAPLE_WALL);
                 entries.add(ModBlocks.MAPLE_DOOR);
                 entries.add(ModBlocks.MAPLE_TRAPDOOR);
                 entries.add(ModBlocks.MAPLE_BUTTON);
