@@ -5,14 +5,26 @@ import net.captaindude.justmaple.blocks.custom.MapleLeavesBlock;
 import net.captaindude.justmaple.worldgen.tree.ModSaplingGenerators;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockSetType;
 import net.minecraft.block.Blocks;
+import net.minecraft.block.ButtonBlock;
+import net.minecraft.block.DoorBlock;
+import net.minecraft.block.FenceBlock;
+import net.minecraft.block.FenceGateBlock;
 import net.minecraft.block.FlowerbedBlock;
 import net.minecraft.block.PillarBlock;
+import net.minecraft.block.PressurePlateBlock;
 import net.minecraft.block.SaplingBlock;
+import net.minecraft.block.SlabBlock;
+import net.minecraft.block.StairsBlock;
+import net.minecraft.block.TrapdoorBlock;
+import net.minecraft.block.WallBlock;
+import net.minecraft.block.WoodType;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
+import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.util.Identifier;
 
 public class ModBlocks {
@@ -35,6 +47,48 @@ public class ModBlocks {
 
     public static final Block FALLEN_MAPLE_LEAVES = registerBlock("fallen_maple_leaves", 
         new FlowerbedBlock(AbstractBlock.Settings.copy(Blocks.PINK_PETALS)));
+
+    // Maple stairs
+    public static final Block MAPLE_STAIRS = registerBlock("maple_stairs",
+        new StairsBlock(ModBlocks.MAPLE_PLANKS.getDefaultState(), 
+            AbstractBlock.Settings.create().strength(4f)
+                .requiresTool().sounds(BlockSoundGroup.WOOD)));
+    // Maple slab
+    public static final Block MAPLE_SLAB = registerBlock("maple_slab",
+        new SlabBlock(AbstractBlock.Settings.create().strength(4f)
+                .requiresTool().sounds(BlockSoundGroup.WOOD)));
+
+    // Maple button
+    public static final Block MAPLE_BUTTON = registerBlock("maple_button",
+        new ButtonBlock(BlockSetType.OAK, 10, AbstractBlock.Settings.create().strength(4f)
+            .requiresTool().sounds(BlockSoundGroup.WOOD)));
+    // Maple pressure plate
+    public static final Block MAPLE_PRESSURE_PLATE = registerBlock("maple_pressure_plate",
+        new PressurePlateBlock(BlockSetType.OAK, AbstractBlock.Settings.create().strength(4f)
+            .requiresTool().sounds(BlockSoundGroup.WOOD)));
+    
+    // Maple fence
+    public static final Block MAPLE_FENCE = registerBlock("maple_fence",
+        new FenceBlock(AbstractBlock.Settings.create().strength(4f)
+            .requiresTool().sounds(BlockSoundGroup.WOOD)));
+    // Maple fence gate
+    public static final Block MAPLE_FENCE_GATE = registerBlock("maple_fence_gate",
+        new FenceGateBlock(WoodType.OAK, AbstractBlock.Settings.create().strength(4f)
+            .requiresTool().sounds(BlockSoundGroup.WOOD)));
+    // Maple wall
+    public static final Block MAPLE_WALL = registerBlock("maple_wall",
+        new WallBlock(AbstractBlock.Settings.create().strength(4f)
+            .requiresTool().sounds(BlockSoundGroup.WOOD)));
+
+    // Maple door
+    public static final Block MAPLE_DOOR = registerBlock("maple_door",
+        new DoorBlock(BlockSetType.OAK, AbstractBlock.Settings.create().strength(4f)
+            .requiresTool().nonOpaque().sounds(BlockSoundGroup.WOOD)));
+    // Maple trapdoor
+    public static final Block MAPLE_TRAPDOOR = registerBlock("maple_trapdoor",
+        new TrapdoorBlock(BlockSetType.OAK, AbstractBlock.Settings.create().strength(4f)
+            .requiresTool().nonOpaque().sounds(BlockSoundGroup.WOOD)));
+
 
 
     // Register block to registry (creates the block in the game)

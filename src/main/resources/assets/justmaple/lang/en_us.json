@@ -6,5 +6,15 @@
     "block.justmaple.maple_planks": "Maple Planks",
     "block.justmaple.maple_leaves": "Maple Leaves",
     "block.justmaple.maple_sapling": "Maple Sapling",
-    "block.justmaple.fallen_maple_leaves": "Fallen Maple Leaves"
+    "block.justmaple.fallen_maple_leaves": "Fallen Maple Leaves",
+
+    "block.justmaple.maple_stairs": "Maple Stairs",
+    "block.justmaple.maple_slab": "Maple Slab",
+    "block.justmaple.maple_fence": "Maple Fence",
+    "block.justmaple.maple_fence_gate": "Maple Fence Gate",
+    "block.justmaple.maple_wall": "Maple Wall",
+    "block.justmaple.maple_door": "Maple Door",
+    "block.justmaple.maple_trapdoor": "Maple Trapdoor",
+    "block.justmaple.maple_button": "Maple Button",
+    "block.justmaple.maple_pressure_plate": "Maple Pressure Plate"
 }

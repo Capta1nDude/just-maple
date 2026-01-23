@@ -28,6 +28,16 @@ public class ModBlockTagProvider extends FabricTagProvider.BlockTagProvider {
             .add(ModBlocks.STRIPPED_MAPLE_LOG)
             .add(ModBlocks.MAPLE_WOOD)
             .add(ModBlocks.STRIPPED_MAPLE_WOOD);
+
+        // Adds some tags for block functionality
+        getOrCreateTagBuilder(BlockTags.FENCES).add(ModBlocks.MAPLE_FENCE);
+        getOrCreateTagBuilder(BlockTags.FENCE_GATES).add(ModBlocks.MAPLE_FENCE_GATE);
+        getOrCreateTagBuilder(BlockTags.WALLS).add(ModBlocks.MAPLE_WALL);
+        getOrCreateTagBuilder(BlockTags.DOORS).add(ModBlocks.MAPLE_DOOR);
+        getOrCreateTagBuilder(BlockTags.TRAPDOORS).add(ModBlocks.MAPLE_TRAPDOOR);
+        getOrCreateTagBuilder(BlockTags.BUTTONS).add(ModBlocks.MAPLE_BUTTON);
+        getOrCreateTagBuilder(BlockTags.PRESSURE_PLATES).add(ModBlocks.MAPLE_PRESSURE_PLATE);
+        getOrCreateTagBuilder(BlockTags.PLANKS).add(ModBlocks.MAPLE_PLANKS);
     }
     
 }   

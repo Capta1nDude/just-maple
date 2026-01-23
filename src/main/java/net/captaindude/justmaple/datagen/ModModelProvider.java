@@ -15,15 +15,26 @@ public class ModModelProvider extends FabricModelProvider{
 
     @Override
     public void generateBlockStateModels(BlockStateModelGenerator blockStateModelGenerator) {
+        BlockStateModelGenerator.BlockTexturePool maplePool = blockStateModelGenerator.registerCubeAllModelTexturePool(ModBlocks.MAPLE_PLANKS);
+
         blockStateModelGenerator.registerLog(ModBlocks.MAPLE_LOG).log(ModBlocks.MAPLE_LOG).wood(ModBlocks.MAPLE_WOOD);
         blockStateModelGenerator.registerLog(ModBlocks.STRIPPED_MAPLE_LOG).log(ModBlocks.STRIPPED_MAPLE_LOG).wood(ModBlocks.STRIPPED_MAPLE_WOOD);
         blockStateModelGenerator.registerTintableCross(ModBlocks.MAPLE_SAPLING, BlockStateModelGenerator.TintType.NOT_TINTED);
 
-
-        blockStateModelGenerator.registerSimpleCubeAll(ModBlocks.MAPLE_PLANKS);
         blockStateModelGenerator.registerSingleton(ModBlocks.MAPLE_LEAVES, TexturedModel.LEAVES);
 
         blockStateModelGenerator.registerFlowerbed(ModBlocks.FALLEN_MAPLE_LEAVES);
+
+        maplePool.stairs(ModBlocks.MAPLE_STAIRS);
+        maplePool.slab(ModBlocks.MAPLE_SLAB);
+        maplePool.fence(ModBlocks.MAPLE_FENCE);
+        maplePool.fenceGate(ModBlocks.MAPLE_FENCE_GATE);
+        maplePool.wall(ModBlocks.MAPLE_WALL);
+        maplePool.button(ModBlocks.MAPLE_BUTTON);
+        maplePool.pressurePlate(ModBlocks.MAPLE_PRESSURE_PLATE);
+
+        blockStateModelGenerator.registerDoor(ModBlocks.MAPLE_DOOR);
+        blockStateModelGenerator.registerTrapdoor(ModBlocks.MAPLE_TRAPDOOR);
     }
 
     @Override

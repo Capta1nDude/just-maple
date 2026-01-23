@@ -15,6 +15,8 @@ public class JustMapleClient implements ClientModInitializer {
 		// This entrypoint is suitable for setting up client-specific logic, such as rendering.
 		BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.MAPLE_SAPLING, RenderLayer.getCutout());
 		BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.FALLEN_MAPLE_LEAVES, RenderLayer.getCutout());
+		BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.MAPLE_DOOR, RenderLayer.getCutout());
+		BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.MAPLE_TRAPDOOR, RenderLayer.getCutout());
 		
 		// Registers maple leaves particle
 		ParticleFactoryRegistry.getInstance().register(
