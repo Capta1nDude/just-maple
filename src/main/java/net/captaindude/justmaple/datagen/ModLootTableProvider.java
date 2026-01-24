@@ -22,6 +22,7 @@ public class ModLootTableProvider extends FabricBlockLootTableProvider{
         addDrop(ModBlocks.STRIPPED_MAPLE_WOOD);
         addDrop(ModBlocks.MAPLE_PLANKS);
         addDrop(ModBlocks.MAPLE_SAPLING);
+        addDrop(ModBlocks.FALLEN_MAPLE_LEAVES);
 
         addDrop(ModBlocks.MAPLE_STAIRS);
         addDrop(ModBlocks.MAPLE_SLAB, slabDrops(ModBlocks.MAPLE_SLAB));

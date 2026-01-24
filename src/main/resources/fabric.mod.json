@@ -3,13 +3,13 @@
 	"id": "justmaple",
 	"version": "${version}",
 	"name": "Just Maple",
-	"description": "This is an example description! Tell everyone what your mod is about!",
+	"description": "Adds maple to minecraft!",
 	"authors": [
-		"Me!"
+		"CaptainDude"
 	],
 	"contact": {
-		"homepage": "https://fabricmc.net/",
-		"sources": "https://github.com/FabricMC/fabric-example-mod"
+		"homepage": "https://github.com/Capta1nDude/just-maple",
+		"sources": "https://github.com/Capta1nDude/just-maple"
 	},
 	"license": "CC0-1.0",
 	"icon": "assets/justmaple/icon.png",
