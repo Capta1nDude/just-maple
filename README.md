@@ -8,100 +8,50 @@
 	<a href="https://github.com/Capta1nDude/just-maple"><img src="https://cdn.modrinth.com/data/cached_images/b2a7c4f7aad3c62b56329dd0b5a4a6eb06dd6eea.png" alt="Available on GitHub" style="margin: 5px 10px;"></a>
 </p>
 
-
 <p align="center">
   <img src="https://github.com/Capta1nDude/just-maple/blob/main/img/fabric_label.png?raw=true" alt="Available for Fabric">
 </p>
 
 <hr>
 
-<h2>About</h2>
+<h3 style="color: red;">As Minecraft is adding the Dappled Forest and Poplar wood type in version 26.3, this mod will no longer recieve updates past 26.2 as it is redundant.</h3>
 
-<p>
-  Just Maple introduces maple wood to minecraft with a whole new maple grove biome, new trees, blocks and an entirely new wood variant! 
-</p>
+## About
 
-<h2>Features</h2>
+Just Maple introduces maple wood to minecraft with a whole new maple grove biome, new trees, blocks and an entirely new wood variant!
 
-<ul>
-  <li>Check out the Maple Grove biome - found in mountainous areas!</li>
-  <li>Craft new maple wood building blocks</li>
-  <li>Admire the new maple trees, with falling leaf particles and fallen maple leaf litter</li>
-</ul>
+## Features
 
-<h2>Compatibility</h2>
 
-<table border="1" cellpadding="6" cellspacing="0">
-  <thead>
-    <tr>
-      <th>Version</th>
-      <th>Loader</th>
-      <th>Supported?</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>1.21 to 1.21.1</td>
-      <td>Fabric</td>
-      <td>✔</td>
-    </tr>
-    <tr>
-      <td>1.21 to 1.21.1</td>
-      <td>Forge / NeoForge / Other</td>
-      <td>✘</td>
-    </tr>
-    <tr>
-      <td>1.20.X and below</td>
-      <td>Fabric / NeoForge / Forge / Other</td>
-      <td>✘</td>
-    </tr>
-    <tr>
-      <td>1.21.2 and above</td>
-      <td>Fabric / NeoForge / Forge / Other</td>
-      <td>✘</td>
-    </tr>
-  </tbody>
-</table>
+- Check out the Maple Grove biome - found in mountainous areas!
+- Craft new maple wood building blocks
+- Admire the new maple trees, with falling leaf particles and fallen maple leaf litter
 
-<h3>Dependencies</h3>
+## Compatibility
 
-<ul>
-  <li>
-    <a href="https://modrinth.com/mod/fabric-api">Requires Fabric API</a>
-  </li>
-</ul>
+**See supported versions in Versions (Modrinth) or Files (Curseforge) above!**
 
-<h2>Installation</h2>
+### Dependencies
 
-<ol>
-  <li>
-    <a href="https://fabricmc.net/use/installer/">Install Fabric Loader</a> for any supported version
-  </li>
-  <li>
-    <a href="https://modrinth.com/mod/fabric-api">Download Fabric API</a>
-  </li>
-  <li>
-    Download Essential Pedestals from Modrinth or CurseForge
-  </li>
-  <li>
-    Place the API and mod file into your <code>mods</code> folder
-  </li>
-  <li>
-    Launch the game using the Fabric profile
-  </li>
-</ol>
+- <a href="https://modrinth.com/mod/fabric-api">Requires Fabric API</a>
 
-<h2>Credits</h2>
+## Installation
 
-<ul>
-  <li>
-    Thanks to
-    <a href="https://www.planetminecraft.com/member/quadrillage/">Quadrillage</a>
-    for the textures
-  </li>
-</ul>
+Use Modrinth App or Curseforge!
 
-<h2>FAQ</h2>
+*OR*
+
+1. <a href="https://fabricmc.net/use/installer/">Install Fabric Loader</a> for any supported version
+2. Download dependencies ^
+3. Download mod from Modrinth or CurseForge websites
+4. Place the API and mod file into your <code>mods</code> folder
+5. Launch the game using the Fabric profile
+
+## Credits
+- Made by <a href="https://modrinth.com/user/CaptainDude">CaptainDude</a>
+- Thanks to <a href="https://www.planetminecraft.com/member/quadrillage/">Quadrillage</a> for the textures
+
+## FAQ
 
 **Q: Where can I find the maple grove biome?**  
 A: It is about as common as the cherry grove. Look in mountainous areas, or use `/locate` to find one.

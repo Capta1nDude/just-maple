@@ -1,5 +1,6 @@
 package net.captaindude.justmaple.worldgen.biome;
 
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import net.captaindude.justmaple.JustMaple;
@@ -20,13 +21,16 @@ import net.minecraft.world.biome.SpawnSettings;
 import net.minecraft.world.gen.GenerationStep;
 import net.minecraft.world.gen.feature.DefaultBiomeFeatures;
 
-public class ModBiomes {
+public final class ModBiomes {
     // Creates registry key to be used later
     public static final RegistryKey<Biome> MAPLE_GROVE = RegistryKey.of(RegistryKeys.BIOME, Identifier.of(JustMaple.MOD_ID, "maple_grove"));
 
     protected static final int DEFAULT_WATER_COLOR = 4159204;
     protected static final int DEFAULT_WATER_FOG_COLOR = 329011;
     private static final int DEFAULT_FOG_COLOR = 12638463;
+
+    private ModBiomes() {
+    }
 
     // Bootstrap method used when initializing registries
     public static void bootstrap(Registerable<Biome> context) {
@@ -70,12 +74,12 @@ public class ModBiomes {
         // DefaultBiomeFeatures.addDefaultVegetation(generationSettings); // CRASHES WITH FOREST GRASS
    }
 
-   private static Biome createBiome(boolean precipitation, float temperature, float downfall, SpawnSettings.Builder spawnSettings, GenerationSettings.LookupBackedBuilder generationSettings, @Nullable MusicSound music) {
-      return createBiome(precipitation, temperature, downfall, 4159204, 329011, (Integer)null, (Integer)null, spawnSettings, generationSettings, music);
+   private static Biome createBiome(boolean precipitation, float temperature, float downfall, @NotNull SpawnSettings.Builder spawnSettings, @NotNull GenerationSettings.LookupBackedBuilder generationSettings, @Nullable MusicSound music) {
+      return createBiome(precipitation, temperature, downfall, DEFAULT_WATER_COLOR, DEFAULT_WATER_FOG_COLOR, null, null, spawnSettings, generationSettings, music);
    }
 
-   private static Biome createBiome(boolean precipitation, float temperature, float downfall, int waterColor, int waterFogColor, @Nullable Integer grassColor, @Nullable Integer foliageColor, SpawnSettings.Builder spawnSettings, GenerationSettings.LookupBackedBuilder generationSettings, @Nullable MusicSound music) {
-      BiomeEffects.Builder builder = (new BiomeEffects.Builder()).waterColor(waterColor).waterFogColor(waterFogColor).fogColor(12638463).skyColor(OverworldBiomeCreator.getSkyColor(temperature)).moodSound(BiomeMoodSound.CAVE).music(music);
+   private static Biome createBiome(boolean precipitation, float temperature, float downfall, int waterColor, int waterFogColor, @Nullable Integer grassColor, @Nullable Integer foliageColor, @NotNull SpawnSettings.Builder spawnSettings, @NotNull GenerationSettings.LookupBackedBuilder generationSettings, @Nullable MusicSound music) {
+      BiomeEffects.Builder builder = (new BiomeEffects.Builder()).waterColor(waterColor).waterFogColor(waterFogColor).fogColor(DEFAULT_FOG_COLOR).skyColor(OverworldBiomeCreator.getSkyColor(temperature)).moodSound(BiomeMoodSound.CAVE).music(music);
       if (grassColor != null) {
          builder.grassColor(grassColor);
       }

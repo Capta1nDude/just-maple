@@ -40,7 +40,5 @@ public class JustMaple implements ModInitializer {
 		FlammableBlockRegistry.getDefaultInstance().add(ModBlocks.MAPLE_LEAVES, 30, 60);
 
 		ModWorldGeneration.bootstrap();
-
-
 	}
 }

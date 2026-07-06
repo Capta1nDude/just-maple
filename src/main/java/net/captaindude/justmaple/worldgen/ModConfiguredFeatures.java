@@ -1,5 +1,7 @@
 package net.captaindude.justmaple.worldgen;
 
+import org.jetbrains.annotations.NotNull;
+
 import net.captaindude.justmaple.JustMaple;
 import net.captaindude.justmaple.blocks.ModBlocks;
 import net.minecraft.block.Block;
@@ -28,7 +30,7 @@ import net.minecraft.world.gen.stateprovider.BlockStateProvider;
 import net.minecraft.world.gen.stateprovider.WeightedBlockStateProvider;
 import net.minecraft.world.gen.trunk.CherryTrunkPlacer;
 
-public class ModConfiguredFeatures {
+public final class ModConfiguredFeatures {
     // Configured Feature -> Placed Feature -> Worldgen / Biome modification
     // A feature is something spawned in the world
     // This class creates configured features e.g. 12 ores in a vein
@@ -40,20 +42,23 @@ public class ModConfiguredFeatures {
     public static final RegistryKey<ConfiguredFeature<?, ?>> FALLEN_MAPLE_LEAVES_PATCH_KEY = registerKey("fallen_maple_leaves_patch");
 
 
+    private ModConfiguredFeatures() {
+    }
+
     public static void bootstrap(Registerable<ConfiguredFeature<?, ?>> context) {
         // Registers maple configured feature
         register(context, MAPLE_KEY, Feature.TREE, maple().build());
         register(context, FALLEN_MAPLE_LEAVES_PATCH_KEY, Feature.RANDOM_PATCH, createFlowerbedRandomPatchFeatureConfig(ModBlocks.FALLEN_MAPLE_LEAVES,32));
     }
 
-    public static RegistryKey<ConfiguredFeature<?, ?>> registerKey(String name) {
+    public static RegistryKey<ConfiguredFeature<?, ?>> registerKey(@NotNull String name) {
         return RegistryKey.of(RegistryKeys.CONFIGURED_FEATURE, Identifier.of(JustMaple.MOD_ID, name));
     }
 
     public static <FC extends FeatureConfig, F extends Feature<FC>> void register(
 		Registerable<ConfiguredFeature<?, ?>> registerable, RegistryKey<ConfiguredFeature<?, ?>> key, F feature, FC config
 	) {
-		registerable.register(key, new ConfiguredFeature(feature, config));
+		registerable.register(key, new ConfiguredFeature<>(feature, config));
 	}
 
     // Defines the maple tree - copied from cherry tree
@@ -66,7 +71,7 @@ public class ModConfiguredFeatures {
             ConstantIntProvider.create(5), 0.25F, 0.5F, 0.16666667F, 0.33333334F), new TwoLayersFeatureSize(1, 0, 2))).ignoreVines();
     }
 
-    private static RandomPatchFeatureConfig createFlowerbedRandomPatchFeatureConfig(Block block,int tries) {
+    private static RandomPatchFeatureConfig createFlowerbedRandomPatchFeatureConfig(@NotNull Block block, int tries) {
         return ConfiguredFeatures.createRandomPatchFeatureConfig(
             tries,
             PlacedFeatures.createEntry(
