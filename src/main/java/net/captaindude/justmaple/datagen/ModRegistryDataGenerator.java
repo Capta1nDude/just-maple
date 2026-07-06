@@ -22,8 +22,8 @@ public class ModRegistryDataGenerator extends FabricDynamicRegistryProvider{
     // Adds trim materials and trim patterns to dynamic registries
     @Override
     protected void configure(WrapperLookup registries, Entries entries) {
-        entries.addAll(registries.getWrapperOrThrow(RegistryKeys.CONFIGURED_FEATURE));
-        entries.addAll(registries.getWrapperOrThrow(RegistryKeys.PLACED_FEATURE));
+        entries.addAll(registries.getOrThrow(RegistryKeys.CONFIGURED_FEATURE));
+        entries.addAll(registries.getOrThrow(RegistryKeys.PLACED_FEATURE));
     }
        
 }
