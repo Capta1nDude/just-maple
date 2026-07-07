@@ -8,7 +8,6 @@ import net.captaindude.justmaple.worldgen.ModPlacedFeatures;
 import net.minecraft.registry.Registerable;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
-import net.minecraft.sound.BiomeMoodSound;
 import net.minecraft.sound.MusicSound;
 import net.minecraft.sound.MusicType;
 import net.minecraft.sound.SoundEvents;
@@ -16,7 +15,6 @@ import net.minecraft.util.Identifier;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.BiomeEffects;
 import net.minecraft.world.biome.GenerationSettings;
-import net.minecraft.world.biome.OverworldBiomeCreator;
 import net.minecraft.world.biome.SpawnSettings;
 import net.minecraft.world.gen.GenerationStep;
 import net.minecraft.world.gen.feature.DefaultBiomeFeatures;
@@ -27,7 +25,6 @@ public final class ModBiomes {
 
     protected static final int DEFAULT_WATER_COLOR = 4159204;
     protected static final int DEFAULT_WATER_FOG_COLOR = 329011;
-    private static final int DEFAULT_FOG_COLOR = 12638463;
 
     private ModBiomes() {
     }
@@ -43,7 +40,7 @@ public final class ModBiomes {
 
         // Adds default entity spawns
         DefaultBiomeFeatures.addFarmAnimals(spawnBuilder);
-        DefaultBiomeFeatures.addBatsAndMonsters(spawnBuilder);
+        DefaultBiomeFeatures.addCaveAndMonsters(spawnBuilder);
 
         GenerationSettings.LookupBackedBuilder biomeBuilder =
                 new GenerationSettings.LookupBackedBuilder(context.getRegistryLookup(RegistryKeys.PLACED_FEATURE),
@@ -79,7 +76,7 @@ public final class ModBiomes {
    }
 
    private static Biome createBiome(boolean precipitation, float temperature, float downfall, int waterColor, int waterFogColor, @Nullable Integer grassColor, @Nullable Integer foliageColor, @NotNull SpawnSettings.Builder spawnSettings, @NotNull GenerationSettings.LookupBackedBuilder generationSettings, @Nullable MusicSound music) {
-      BiomeEffects.Builder builder = (new BiomeEffects.Builder()).waterColor(waterColor).waterFogColor(waterFogColor).fogColor(DEFAULT_FOG_COLOR).skyColor(OverworldBiomeCreator.getSkyColor(temperature)).moodSound(BiomeMoodSound.CAVE).music(music);
+      BiomeEffects.Builder builder = (new BiomeEffects.Builder()).waterColor(waterColor);
       if (grassColor != null) {
          builder.grassColor(grassColor);
       }
