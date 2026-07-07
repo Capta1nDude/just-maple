@@ -2,80 +2,81 @@ package net.captaindude.justmaple.blocks.custom;
 
 import com.mojang.serialization.MapCodec;
 
-import net.minecraft.block.AbstractBlock;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.PlantBlock;
-import net.minecraft.item.ItemPlacementContext;
-import net.minecraft.state.StateManager;
-import net.minecraft.state.property.EnumProperty;
-import net.minecraft.state.property.IntProperty;
-import net.minecraft.state.property.Properties;
-import net.minecraft.util.BlockMirror;
-import net.minecraft.util.BlockRotation;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
-import net.minecraft.util.shape.VoxelShape;
-import net.minecraft.world.BlockView;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Mirror;
+import net.minecraft.world.level.block.Rotation;
+import net.minecraft.world.level.block.VegetationBlock;
+import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.state.properties.EnumProperty;
+import net.minecraft.world.level.block.state.properties.IntegerProperty;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.VoxelShape;
 
-public class MapleFlowerbedBlock extends PlantBlock {
-    public static final MapCodec<MapleFlowerbedBlock> CODEC = createCodec(MapleFlowerbedBlock::new);
-    public static final EnumProperty<Direction> HORIZONTAL_FACING = Properties.HORIZONTAL_FACING;
-    public static final IntProperty FLOWER_AMOUNT = Properties.FLOWER_AMOUNT;
+public class MapleFlowerbedBlock extends VegetationBlock {
+    public static final MapCodec<MapleFlowerbedBlock> CODEC = simpleCodec(MapleFlowerbedBlock::new);
+    public static final EnumProperty<Direction> HORIZONTAL_FACING = BlockStateProperties.HORIZONTAL_FACING;
+    public static final IntegerProperty FLOWER_AMOUNT = BlockStateProperties.FLOWER_AMOUNT;
     private static final VoxelShape[] SHAPES = new VoxelShape[] {
-        Block.createCuboidShape(1.0D, 0.0D, 1.0D, 8.0D, 3.0D, 8.0D),
-        Block.createCuboidShape(1.0D, 0.0D, 1.0D, 12.0D, 3.0D, 12.0D),
-        Block.createCuboidShape(1.0D, 0.0D, 1.0D, 15.0D, 3.0D, 15.0D),
-        Block.createCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 3.0D, 16.0D)
+        Block.box(1.0D, 0.0D, 1.0D, 8.0D, 3.0D, 8.0D),
+        Block.box(1.0D, 0.0D, 1.0D, 12.0D, 3.0D, 12.0D),
+        Block.box(1.0D, 0.0D, 1.0D, 15.0D, 3.0D, 15.0D),
+        Block.box(0.0D, 0.0D, 0.0D, 16.0D, 3.0D, 16.0D)
     };
 
-    public MapleFlowerbedBlock(AbstractBlock.Settings settings) {
+    public MapleFlowerbedBlock(BlockBehaviour.Properties settings) {
         super(settings);
-        this.setDefaultState(this.stateManager.getDefaultState()
-            .with(HORIZONTAL_FACING, Direction.NORTH)
-            .with(FLOWER_AMOUNT, 1));
+        this.registerDefaultState(this.stateDefinition.any()
+            .setValue(HORIZONTAL_FACING, Direction.NORTH)
+            .setValue(FLOWER_AMOUNT, 1));
     }
 
     @Override
-    protected MapCodec<MapleFlowerbedBlock> getCodec() {
+    protected MapCodec<MapleFlowerbedBlock> codec() {
         return CODEC;
     }
 
     @Override
-    public BlockState rotate(BlockState state, BlockRotation rotation) {
-        return state.with(HORIZONTAL_FACING, rotation.rotate(state.get(HORIZONTAL_FACING)));
+    public BlockState rotate(BlockState state, Rotation rotation) {
+        return state.setValue(HORIZONTAL_FACING, rotation.rotate(state.getValue(HORIZONTAL_FACING)));
     }
 
     @Override
-    public BlockState mirror(BlockState state, BlockMirror mirror) {
-        return state.rotate(mirror.getRotation(state.get(HORIZONTAL_FACING)));
+    public BlockState mirror(BlockState state, Mirror mirror) {
+        return state.rotate(mirror.getRotation(state.getValue(HORIZONTAL_FACING)));
     }
 
     @Override
-    public boolean canReplace(BlockState state, ItemPlacementContext context) {
-        return !context.shouldCancelInteraction()
-            && context.getStack().isOf(this.asItem())
-            && state.get(FLOWER_AMOUNT) < 4
-            || super.canReplace(state, context);
+    public boolean canBeReplaced(BlockState state, BlockPlaceContext context) {
+        return !context.isSecondaryUseActive()
+            && context.getItemInHand().is(this.asItem())
+            && state.getValue(FLOWER_AMOUNT) < 4
+            || super.canBeReplaced(state, context);
     }
 
     @Override
-    public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, net.minecraft.block.ShapeContext context) {
-        return SHAPES[state.get(FLOWER_AMOUNT) - 1];
+    public VoxelShape getShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context) {
+        return SHAPES[state.getValue(FLOWER_AMOUNT) - 1];
     }
 
     @Override
-    public BlockState getPlacementState(ItemPlacementContext context) {
-        BlockState blockState = context.getWorld().getBlockState(context.getBlockPos());
-        if (blockState.isOf(this)) {
-            return blockState.with(FLOWER_AMOUNT, Math.min(4, blockState.get(FLOWER_AMOUNT) + 1));
+    public BlockState getStateForPlacement(BlockPlaceContext context) {
+        BlockState blockState = context.getLevel().getBlockState(context.getClickedPos());
+        if (blockState.is(this)) {
+            return blockState.setValue(FLOWER_AMOUNT, Math.min(4, blockState.getValue(FLOWER_AMOUNT) + 1));
         }
 
-        return this.getDefaultState().with(HORIZONTAL_FACING, context.getHorizontalPlayerFacing().getOpposite());
+        return this.defaultBlockState().setValue(HORIZONTAL_FACING, context.getHorizontalDirection().getOpposite());
     }
 
     @Override
-    protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
+    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         builder.add(HORIZONTAL_FACING, FLOWER_AMOUNT);
     }
 }

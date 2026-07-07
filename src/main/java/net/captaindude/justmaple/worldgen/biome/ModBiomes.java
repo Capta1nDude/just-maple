@@ -1,90 +1,127 @@
 package net.captaindude.justmaple.worldgen.biome;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
 import net.captaindude.justmaple.JustMaple;
 import net.captaindude.justmaple.worldgen.ModPlacedFeatures;
-import net.minecraft.registry.Registerable;
-import net.minecraft.registry.RegistryKey;
-import net.minecraft.registry.RegistryKeys;
-import net.minecraft.sound.MusicSound;
-import net.minecraft.sound.MusicType;
-import net.minecraft.sound.SoundEvents;
-import net.minecraft.util.Identifier;
-import net.minecraft.world.biome.Biome;
-import net.minecraft.world.biome.BiomeEffects;
-import net.minecraft.world.biome.GenerationSettings;
-import net.minecraft.world.biome.SpawnSettings;
-import net.minecraft.world.gen.GenerationStep;
-import net.minecraft.world.gen.feature.DefaultBiomeFeatures;
+import net.minecraft.core.HolderGetter;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.data.worldgen.BiomeDefaultFeatures;
+import net.minecraft.data.worldgen.BootstrapContext;
+import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.util.Mth;
+import net.minecraft.world.attribute.BackgroundMusic;
+import net.minecraft.world.attribute.EnvironmentAttributes;
+import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.biome.BiomeGenerationSettings;
+import net.minecraft.world.level.biome.BiomeSpecialEffects;
+import net.minecraft.world.level.biome.MobSpawnSettings;
+import net.minecraft.world.level.levelgen.GenerationStep;
+import net.minecraft.world.level.levelgen.carver.ConfiguredWorldCarver;
+import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 
 public final class ModBiomes {
-    // Creates registry key to be used later
-    public static final RegistryKey<Biome> MAPLE_GROVE = RegistryKey.of(RegistryKeys.BIOME, Identifier.of(JustMaple.MOD_ID, "maple_grove"));
 
-    protected static final int DEFAULT_WATER_COLOR = 4159204;
-    protected static final int DEFAULT_WATER_FOG_COLOR = 329011;
+    public static final ResourceKey<Biome> MAPLE_GROVE = ResourceKey.create(
+            Registries.BIOME,
+            Identifier.fromNamespaceAndPath(JustMaple.MOD_ID, "maple_grove"));
+
+    private static final int DEFAULT_WATER_COLOR = 4159204;
+    private static final int DEFAULT_WATER_FOG_COLOR = 329011;
 
     private ModBiomes() {
     }
 
-    // Bootstrap method used when initializing registries
-    public static void bootstrap(Registerable<Biome> context) {
-        context.register(MAPLE_GROVE, mapleGrove(context));
+    public static void bootstrap(BootstrapContext<Biome> context) {
+        HolderGetter<PlacedFeature> placedFeatureGetter = context.lookup(Registries.PLACED_FEATURE);
+
+        HolderGetter<ConfiguredWorldCarver<?>> carverGetter = context.lookup(Registries.CONFIGURED_CARVER);
+
+        context.register(
+                MAPLE_GROVE,
+                mapleGrove(placedFeatureGetter, carverGetter));
     }
 
-    public static Biome mapleGrove(Registerable<Biome> context) {
-        SpawnSettings.Builder spawnBuilder = new SpawnSettings.Builder();
-        // spawnBuilder.spawn(SpawnGroup.CREATURE, new SpawnSettings.SpawnEntry(ModEntities.PORCUPINE, 2, 3, 5)); // Example of custom entity spawn
+    private static Biome mapleGrove(
+            HolderGetter<PlacedFeature> placedFeatureGetter,
+            HolderGetter<ConfiguredWorldCarver<?>> carverGetter) {
 
-        // Adds default entity spawns
-        DefaultBiomeFeatures.addFarmAnimals(spawnBuilder);
-        DefaultBiomeFeatures.addCaveAndMonsters(spawnBuilder);
+        MobSpawnSettings.Builder spawnBuilder = new MobSpawnSettings.Builder();
 
-        GenerationSettings.LookupBackedBuilder biomeBuilder =
-                new GenerationSettings.LookupBackedBuilder(context.getRegistryLookup(RegistryKeys.PLACED_FEATURE),
-                        context.getRegistryLookup(RegistryKeys.CONFIGURED_CARVER));
+        BiomeDefaultFeatures.farmAnimals(spawnBuilder);
+        BiomeDefaultFeatures.commonSpawns(spawnBuilder);
 
-        // Vanilla biome features
+        BiomeGenerationSettings.Builder biomeBuilder = new BiomeGenerationSettings.Builder(
+                placedFeatureGetter,
+                carverGetter);
+
         addBasicFeatures(biomeBuilder);
-        DefaultBiomeFeatures.addForestGrass(biomeBuilder);
-        DefaultBiomeFeatures.addExtraGoldOre(biomeBuilder);
-      
 
-        // Custom biome features
-        biomeBuilder.feature(GenerationStep.Feature.VEGETAL_DECORATION, ModPlacedFeatures.MAPLE_PLACED_KEY);
-        biomeBuilder.feature(GenerationStep.Feature.VEGETAL_DECORATION, ModPlacedFeatures.FALLEN_MAPLE_LEAVES_PLACED_KEY);
+        BiomeDefaultFeatures.addForestGrass(biomeBuilder);
+        BiomeDefaultFeatures.addExtraGold(biomeBuilder);
 
-        // Creates biome with given settings
-        return createBiome(true, 0.5f, 0.8f, spawnBuilder, biomeBuilder, MusicType.createIngameMusic(SoundEvents.MUSIC_OVERWORLD_CHERRY_GROVE));
+        biomeBuilder.addFeature(
+                GenerationStep.Decoration.VEGETAL_DECORATION,
+                ModPlacedFeatures.MAPLE_PLACED_KEY);
+
+        biomeBuilder.addFeature(
+                GenerationStep.Decoration.VEGETAL_DECORATION,
+                ModPlacedFeatures.FALLEN_MAPLE_LEAVES_PLACED_KEY);
+
+        float temperature = 0.5F;
+
+        return new Biome.BiomeBuilder()
+                .hasPrecipitation(true)
+                .temperature(temperature)
+                .downfall(0.8F)
+                .setAttribute(
+                        EnvironmentAttributes.SKY_COLOR,
+                        calculateSkyColor(temperature))
+                .setAttribute(
+                        EnvironmentAttributes.WATER_FOG_COLOR,
+                        DEFAULT_WATER_FOG_COLOR)
+                .setAttribute(
+                        EnvironmentAttributes.BACKGROUND_MUSIC,
+                        new BackgroundMusic(
+                                SoundEvents.MUSIC_BIOME_CHERRY_GROVE))
+                .specialEffects(
+                        new BiomeSpecialEffects.Builder()
+                                .waterColor(DEFAULT_WATER_COLOR)
+                                .build())
+                .mobSpawnSettings(spawnBuilder.build())
+                .generationSettings(biomeBuilder.build())
+                .build();
     }
 
-    private static void addBasicFeatures(GenerationSettings.LookupBackedBuilder generationSettings) {
-        DefaultBiomeFeatures.addLandCarvers(generationSettings);
-        DefaultBiomeFeatures.addAmethystGeodes(generationSettings);
-        DefaultBiomeFeatures.addDungeons(generationSettings);
-        // DefaultBiomeFeatures.addMineables(generationSettings); // CRASHES WITH FOREST GRASS
-        DefaultBiomeFeatures.addSprings(generationSettings);
-        DefaultBiomeFeatures.addFrozenTopLayer(generationSettings);
-        DefaultBiomeFeatures.addDefaultOres(generationSettings);
-        // DefaultBiomeFeatures.addDefaultVegetation(generationSettings); // CRASHES WITH FOREST GRASS
-   }
+    private static void addBasicFeatures(
+            BiomeGenerationSettings.Builder generationSettings) {
 
-   private static Biome createBiome(boolean precipitation, float temperature, float downfall, @NotNull SpawnSettings.Builder spawnSettings, @NotNull GenerationSettings.LookupBackedBuilder generationSettings, @Nullable MusicSound music) {
-      return createBiome(precipitation, temperature, downfall, DEFAULT_WATER_COLOR, DEFAULT_WATER_FOG_COLOR, null, null, spawnSettings, generationSettings, music);
-   }
+        BiomeDefaultFeatures.addDefaultCarversAndLakes(
+                generationSettings);
 
-   private static Biome createBiome(boolean precipitation, float temperature, float downfall, int waterColor, int waterFogColor, @Nullable Integer grassColor, @Nullable Integer foliageColor, @NotNull SpawnSettings.Builder spawnSettings, @NotNull GenerationSettings.LookupBackedBuilder generationSettings, @Nullable MusicSound music) {
-      BiomeEffects.Builder builder = (new BiomeEffects.Builder()).waterColor(waterColor);
-      if (grassColor != null) {
-         builder.grassColor(grassColor);
-      }
+        BiomeDefaultFeatures.addDefaultCrystalFormations(
+                generationSettings);
 
-      if (foliageColor != null) {
-         builder.foliageColor(foliageColor);
-      }
+        BiomeDefaultFeatures.addDefaultMonsterRoom(
+                generationSettings);
 
-      return (new Biome.Builder()).precipitation(precipitation).temperature(temperature).downfall(downfall).effects(builder.build()).spawnSettings(spawnSettings.build()).generationSettings(generationSettings.build()).build();
-   }
+        BiomeDefaultFeatures.addDefaultSprings(
+                generationSettings);
+
+        BiomeDefaultFeatures.addSurfaceFreezing(
+                generationSettings);
+
+        BiomeDefaultFeatures.addDefaultOres(
+                generationSettings);
+    }
+
+    private static int calculateSkyColor(float temperature) {
+        float value = temperature / 3.0F;
+        value = Mth.clamp(value, -1.0F, 1.0F);
+
+        return Mth.hsvToRgb(
+                0.62222224F - value * 0.05F,
+                0.5F + value * 0.1F,
+                1.0F);
+    }
 }

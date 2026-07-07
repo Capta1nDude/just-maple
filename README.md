@@ -34,6 +34,7 @@ Just Maple introduces maple wood to minecraft with a whole new maple grove biome
 ### Dependencies
 
 - <a href="https://modrinth.com/mod/fabric-api">Requires Fabric API</a>
+- <a href="https://modrinth.com/mod/terrablender">Requires Terrablender</a>
 
 ## Installation
 

@@ -4,20 +4,19 @@ import java.util.concurrent.CompletableFuture;
 
 import net.captaindude.justmaple.blocks.ModBlocks;
 import net.captaindude.justmaple.tags.ModItemTags;
-import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
-import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
-import net.minecraft.registry.RegistryWrapper;
-import net.minecraft.registry.RegistryWrapper.WrapperLookup;
-import net.minecraft.registry.tag.ItemTags;
+import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
+import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagsProvider;
+import net.minecraft.core.HolderLookup.Provider;
+import net.minecraft.tags.ItemTags;
 
-public class ModItemTagProvider extends FabricTagProvider.ItemTagProvider {
-    public ModItemTagProvider(FabricDataOutput output, CompletableFuture<WrapperLookup> completableFuture) {
+public class ModItemTagProvider extends FabricTagsProvider.ItemTagsProvider {
+    public ModItemTagProvider(FabricPackOutput output, CompletableFuture<Provider> completableFuture) {
         super(output, completableFuture);
     }
 
     // Generates item tags
     @Override
-    protected void configure(RegistryWrapper.WrapperLookup wrapperLookup) {
+    protected void addTags(Provider wrapperLookup) {
         // Items that can be transformed via the Magic Block into diamonds
         valueLookupBuilder(ItemTags.LOGS_THAT_BURN)
             .addTag(ModItemTags.MAPLE_LOGS);

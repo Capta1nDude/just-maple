@@ -3,38 +3,39 @@ package net.captaindude.justmaple.blocks.custom;
 import com.mojang.serialization.MapCodec;
 
 import net.captaindude.justmaple.particle.ModParticles;
-import net.minecraft.block.AbstractBlock;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.LeavesBlock;
-import net.minecraft.particle.ParticleUtil;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
-import net.minecraft.util.math.random.Random;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.util.ParticleUtils;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.LeavesBlock;
+import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.state.BlockState;
 
 public class MapleLeavesBlock extends LeavesBlock {
-    public static final MapCodec<MapleLeavesBlock> CODEC = createCodec(MapleLeavesBlock::new);
+    public static final MapCodec<MapleLeavesBlock> CODEC = simpleCodec(MapleLeavesBlock::new);
     private static final float LEAF_PARTICLE_CHANCE = 0.1F;
 
-    public MapleLeavesBlock(AbstractBlock.Settings settings) {
+    public MapleLeavesBlock(BlockBehaviour.Properties settings) {
         this(LEAF_PARTICLE_CHANCE, settings);
     }
 
-    public MapleLeavesBlock(float leafParticleChance, AbstractBlock.Settings settings) {
+    public MapleLeavesBlock(float leafParticleChance, BlockBehaviour.Properties settings) {
         super(leafParticleChance, settings);
     }
 
     @Override
-    public MapCodec<MapleLeavesBlock> getCodec() {
+    public MapCodec<MapleLeavesBlock> codec() {
         return CODEC;
     }
 
     @Override
-    protected void spawnLeafParticle(World world, BlockPos pos, Random random) {
-        BlockPos blockPos = pos.down();
+    protected void spawnFallingLeavesParticle(Level world, BlockPos pos, RandomSource random) {
+        BlockPos blockPos = pos.below();
         BlockState blockState = world.getBlockState(blockPos);
-        if (!isFaceFullSquare(blockState.getCollisionShape(world, blockPos), Direction.UP)) {
-            ParticleUtil.spawnParticle(world, pos, random, ModParticles.MAPLE_LEAVES);
+        if (!Block.isFaceFull(blockState.getCollisionShape(world, blockPos), Direction.UP)) {
+            ParticleUtils.spawnParticleBelow(world, pos, random, ModParticles.MAPLE_LEAVES);
         }
     }
 }

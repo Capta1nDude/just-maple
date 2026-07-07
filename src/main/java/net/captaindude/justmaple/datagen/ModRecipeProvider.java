@@ -4,17 +4,20 @@ import java.util.concurrent.CompletableFuture;
 
 import net.captaindude.justmaple.blocks.ModBlocks;
 import net.captaindude.justmaple.tags.ModItemTags;
-import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
+import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
-import net.minecraft.data.recipe.RecipeExporter;
-import net.minecraft.data.recipe.RecipeGenerator;
-import net.minecraft.recipe.Ingredient;
-import net.minecraft.recipe.book.RecipeCategory;
-import net.minecraft.registry.RegistryWrapper.WrapperLookup;
+import net.minecraft.core.HolderLookup.Provider;
+import net.minecraft.data.recipes.RecipeCategory;
+import net.minecraft.data.recipes.RecipeOutput;
+import net.minecraft.data.recipes.RecipeProvider;
+import net.minecraft.world.item.Items;
 
 public class ModRecipeProvider extends FabricRecipeProvider {
 
-    public ModRecipeProvider(FabricDataOutput output, CompletableFuture<WrapperLookup> registriesFuture) {
+    public ModRecipeProvider(
+            FabricPackOutput output,
+            CompletableFuture<Provider> registriesFuture) {
+
         super(output, registriesFuture);
     }
 
@@ -24,59 +27,125 @@ public class ModRecipeProvider extends FabricRecipeProvider {
     }
 
     @Override
-    protected RecipeGenerator getRecipeGenerator(WrapperLookup registryLookup, RecipeExporter exporter) {
-        return new RecipeGenerator(registryLookup, exporter) {
+    protected RecipeProvider createRecipeProvider(
+            Provider registryLookup,
+            RecipeOutput exporter) {
+
+        return new RecipeProvider(registryLookup, exporter) {
+
             @Override
-            public void generate() {
-                createDoorRecipe(ModBlocks.MAPLE_DOOR, Ingredient.ofItems(ModBlocks.MAPLE_PLANKS))
-                    .criterion(hasItem(ModBlocks.MAPLE_PLANKS), conditionsFromItem(ModBlocks.MAPLE_PLANKS))
-                    .offerTo(exporter);
+            public void buildRecipes() {
 
-                createTrapdoorRecipe(ModBlocks.MAPLE_TRAPDOOR, Ingredient.ofItems(ModBlocks.MAPLE_PLANKS))
-                    .criterion(hasItem(ModBlocks.MAPLE_PLANKS), conditionsFromItem(ModBlocks.MAPLE_PLANKS))
-                    .offerTo(exporter);
+                // Maple door
+                shaped(RecipeCategory.BUILDING_BLOCKS, ModBlocks.MAPLE_DOOR, 3)
+                        .pattern("##")
+                        .pattern("##")
+                        .pattern("##")
+                        .define('#', ModBlocks.MAPLE_PLANKS)
+                        .unlockedBy(
+                                getHasName(ModBlocks.MAPLE_PLANKS),
+                                has(ModBlocks.MAPLE_PLANKS))
+                        .save(output);
 
-                createFenceRecipe(ModBlocks.MAPLE_FENCE, Ingredient.ofItems(ModBlocks.MAPLE_PLANKS))
-                    .criterion(hasItem(ModBlocks.MAPLE_PLANKS), conditionsFromItem(ModBlocks.MAPLE_PLANKS))
-                    .offerTo(exporter);
+                // Maple trapdoor
+                shaped(RecipeCategory.REDSTONE, ModBlocks.MAPLE_TRAPDOOR, 2)
+                        .pattern("###")
+                        .pattern("###")
+                        .define('#', ModBlocks.MAPLE_PLANKS)
+                        .unlockedBy(
+                                getHasName(ModBlocks.MAPLE_PLANKS),
+                                has(ModBlocks.MAPLE_PLANKS))
+                        .save(output);
 
-                createFenceGateRecipe(ModBlocks.MAPLE_FENCE_GATE, Ingredient.ofItems(ModBlocks.MAPLE_PLANKS))
-                    .criterion(hasItem(ModBlocks.MAPLE_PLANKS), conditionsFromItem(ModBlocks.MAPLE_PLANKS))
-                    .offerTo(exporter);
+                // Maple fence
+                shaped(RecipeCategory.DECORATIONS, ModBlocks.MAPLE_FENCE, 3)
+                        .pattern("W#W")
+                        .pattern("W#W")
+                        .define('W', ModBlocks.MAPLE_PLANKS)
+                        .define('#', Items.STICK)
+                        .unlockedBy(
+                                getHasName(ModBlocks.MAPLE_PLANKS),
+                                has(ModBlocks.MAPLE_PLANKS))
+                        .save(output);
 
-                createStairsRecipe(ModBlocks.MAPLE_STAIRS, Ingredient.ofItems(ModBlocks.MAPLE_PLANKS))
-                    .criterion(hasItem(ModBlocks.MAPLE_PLANKS), conditionsFromItem(ModBlocks.MAPLE_PLANKS))
-                    .offerTo(exporter);
+                // Maple fence gate
+                shaped(RecipeCategory.REDSTONE, ModBlocks.MAPLE_FENCE_GATE)
+                        .pattern("#W#")
+                        .pattern("#W#")
+                        .define('W', ModBlocks.MAPLE_PLANKS)
+                        .define('#', Items.STICK)
+                        .unlockedBy(
+                                getHasName(ModBlocks.MAPLE_PLANKS),
+                                has(ModBlocks.MAPLE_PLANKS))
+                        .save(output);
 
-                offerSlabRecipe(RecipeCategory.BUILDING_BLOCKS, ModBlocks.MAPLE_SLAB, ModBlocks.MAPLE_PLANKS);
+                // Maple stairs
+                shaped(RecipeCategory.BUILDING_BLOCKS, ModBlocks.MAPLE_STAIRS, 4)
+                        .pattern("#  ")
+                        .pattern("## ")
+                        .pattern("###")
+                        .define('#', ModBlocks.MAPLE_PLANKS)
+                        .unlockedBy(
+                                getHasName(ModBlocks.MAPLE_PLANKS),
+                                has(ModBlocks.MAPLE_PLANKS))
+                        .save(output);
 
-                createPressurePlateRecipe(RecipeCategory.REDSTONE, ModBlocks.MAPLE_PRESSURE_PLATE,
-                        Ingredient.ofItems(ModBlocks.MAPLE_PLANKS))
-                    .criterion(hasItem(ModBlocks.MAPLE_PLANKS), conditionsFromItem(ModBlocks.MAPLE_PLANKS))
-                    .offerTo(exporter);
+                // Maple slab
+                shaped(RecipeCategory.BUILDING_BLOCKS, ModBlocks.MAPLE_SLAB, 6)
+                        .pattern("###")
+                        .define('#', ModBlocks.MAPLE_PLANKS)
+                        .unlockedBy(
+                                getHasName(ModBlocks.MAPLE_PLANKS),
+                                has(ModBlocks.MAPLE_PLANKS))
+                        .save(output);
 
-                offerPlanksRecipe(ModBlocks.MAPLE_PLANKS, ModItemTags.MAPLE_LOGS, 4);
+                // Maple pressure plate
+                shaped(RecipeCategory.REDSTONE, ModBlocks.MAPLE_PRESSURE_PLATE)
+                        .pattern("##")
+                        .define('#', ModBlocks.MAPLE_PLANKS)
+                        .unlockedBy(
+                                getHasName(ModBlocks.MAPLE_PLANKS),
+                                has(ModBlocks.MAPLE_PLANKS))
+                        .save(output);
 
-                createShapeless(RecipeCategory.REDSTONE, ModBlocks.MAPLE_BUTTON)
-                    .input(ModBlocks.MAPLE_PLANKS)
-                    .criterion(hasItem(ModBlocks.MAPLE_PLANKS), conditionsFromItem(ModBlocks.MAPLE_PLANKS))
-                    .offerTo(exporter);
+                // Maple planks
+                shapeless(RecipeCategory.BUILDING_BLOCKS, ModBlocks.MAPLE_PLANKS, 4)
+                        .requires(ModItemTags.MAPLE_LOGS)
+                        .unlockedBy(
+                                getHasName(ModBlocks.MAPLE_LOG),
+                                has(ModBlocks.MAPLE_LOG))
+                        .save(output);
 
-                createShaped(RecipeCategory.BUILDING_BLOCKS, ModBlocks.MAPLE_WOOD)
-                    .pattern("##")
-                    .pattern("##")
-                    .input('#', ModBlocks.MAPLE_LOG)
-                    .criterion(hasItem(ModBlocks.MAPLE_LOG), conditionsFromItem(ModBlocks.MAPLE_LOG))
-                    .offerTo(exporter);
+                // Maple button
+                shapeless(RecipeCategory.REDSTONE, ModBlocks.MAPLE_BUTTON)
+                        .requires(ModBlocks.MAPLE_PLANKS)
+                        .unlockedBy(
+                                getHasName(ModBlocks.MAPLE_PLANKS),
+                                has(ModBlocks.MAPLE_PLANKS))
+                        .save(output);
 
-                createShaped(RecipeCategory.BUILDING_BLOCKS, ModBlocks.STRIPPED_MAPLE_WOOD)
-                    .pattern("##")
-                    .pattern("##")
-                    .input('#', ModBlocks.STRIPPED_MAPLE_LOG)
-                    .criterion(hasItem(ModBlocks.STRIPPED_MAPLE_LOG), conditionsFromItem(ModBlocks.STRIPPED_MAPLE_LOG))
-                    .offerTo(exporter);
+                // Maple wood
+                shaped(RecipeCategory.BUILDING_BLOCKS, ModBlocks.MAPLE_WOOD)
+                        .pattern("##")
+                        .pattern("##")
+                        .define('#', ModBlocks.MAPLE_LOG)
+                        .unlockedBy(
+                                getHasName(ModBlocks.MAPLE_LOG),
+                                has(ModBlocks.MAPLE_LOG))
+                        .save(output);
+
+                // Stripped maple wood
+                shaped(
+                        RecipeCategory.BUILDING_BLOCKS,
+                        ModBlocks.STRIPPED_MAPLE_WOOD)
+                        .pattern("##")
+                        .pattern("##")
+                        .define('#', ModBlocks.STRIPPED_MAPLE_LOG)
+                        .unlockedBy(
+                                getHasName(ModBlocks.STRIPPED_MAPLE_LOG),
+                                has(ModBlocks.STRIPPED_MAPLE_LOG))
+                        .save(output);
             }
         };
     }
-
 }

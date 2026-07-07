@@ -2,42 +2,51 @@ package net.captaindude.justmaple.datagen;
 
 import net.captaindude.justmaple.blocks.ModBlocks;
 import net.fabricmc.fabric.api.client.datagen.v1.provider.FabricModelProvider;
-import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
-import net.minecraft.client.data.BlockStateModelGenerator;
-import net.minecraft.client.data.ItemModelGenerator;
-import net.minecraft.client.data.TexturedModel;
+import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
+import net.minecraft.client.data.models.BlockModelGenerators;
+import net.minecraft.client.data.models.ItemModelGenerators;
+import net.minecraft.client.data.models.model.TexturedModel;
 
-public class ModModelProvider extends FabricModelProvider{
-    public ModModelProvider(FabricDataOutput output) {
+public class ModModelProvider extends FabricModelProvider {
+
+    public ModModelProvider(FabricPackOutput output) {
         super(output);
     }
 
     @Override
-    public void generateBlockStateModels(BlockStateModelGenerator blockStateModelGenerator) {
-        BlockStateModelGenerator.BlockTexturePool maplePool = blockStateModelGenerator.registerCubeAllModelTexturePool(ModBlocks.MAPLE_PLANKS);
+    public void generateBlockStateModels(BlockModelGenerators blockModelGenerators) {
+        BlockModelGenerators.BlockFamilyProvider mapleFamily = blockModelGenerators.family(ModBlocks.MAPLE_PLANKS);
 
-        blockStateModelGenerator.createLogTexturePool(ModBlocks.MAPLE_LOG).log(ModBlocks.MAPLE_LOG).wood(ModBlocks.MAPLE_WOOD);
-        blockStateModelGenerator.createLogTexturePool(ModBlocks.STRIPPED_MAPLE_LOG).log(ModBlocks.STRIPPED_MAPLE_LOG).wood(ModBlocks.STRIPPED_MAPLE_WOOD);
-        blockStateModelGenerator.registerTintableCross(ModBlocks.MAPLE_SAPLING, BlockStateModelGenerator.CrossType.NOT_TINTED);
+        blockModelGenerators.woodProvider(ModBlocks.MAPLE_LOG)
+                .log(ModBlocks.MAPLE_LOG)
+                .wood(ModBlocks.MAPLE_WOOD);
 
-        blockStateModelGenerator.registerSingleton(ModBlocks.MAPLE_LEAVES, TexturedModel.LEAVES);
+        blockModelGenerators.woodProvider(ModBlocks.STRIPPED_MAPLE_LOG)
+                .log(ModBlocks.STRIPPED_MAPLE_LOG)
+                .wood(ModBlocks.STRIPPED_MAPLE_WOOD);
 
-        blockStateModelGenerator.registerFlowerbed(ModBlocks.FALLEN_MAPLE_LEAVES);
+        blockModelGenerators.createCrossBlockWithDefaultItem(
+                ModBlocks.MAPLE_SAPLING,
+                BlockModelGenerators.PlantType.NOT_TINTED);
 
-        maplePool.stairs(ModBlocks.MAPLE_STAIRS);
-        maplePool.slab(ModBlocks.MAPLE_SLAB);
-        maplePool.fence(ModBlocks.MAPLE_FENCE);
-        maplePool.fenceGate(ModBlocks.MAPLE_FENCE_GATE);
-        maplePool.button(ModBlocks.MAPLE_BUTTON);
-        maplePool.pressurePlate(ModBlocks.MAPLE_PRESSURE_PLATE);
+        blockModelGenerators.createTrivialBlock(
+                ModBlocks.MAPLE_LEAVES,
+                TexturedModel.LEAVES);
 
-        blockStateModelGenerator.registerDoor(ModBlocks.MAPLE_DOOR);
-        blockStateModelGenerator.registerTrapdoor(ModBlocks.MAPLE_TRAPDOOR);
+        blockModelGenerators.createFlowerBed(ModBlocks.FALLEN_MAPLE_LEAVES);
+
+        mapleFamily.stairs(ModBlocks.MAPLE_STAIRS);
+        mapleFamily.slab(ModBlocks.MAPLE_SLAB);
+        mapleFamily.fence(ModBlocks.MAPLE_FENCE);
+        mapleFamily.fenceGate(ModBlocks.MAPLE_FENCE_GATE);
+        mapleFamily.button(ModBlocks.MAPLE_BUTTON);
+        mapleFamily.pressurePlate(ModBlocks.MAPLE_PRESSURE_PLATE);
+
+        blockModelGenerators.createDoor(ModBlocks.MAPLE_DOOR);
+        blockModelGenerators.createTrapdoor(ModBlocks.MAPLE_TRAPDOOR);
     }
 
     @Override
-    public void generateItemModels(ItemModelGenerator itemModelGenerator) {
-        // itemModelGenerator.register(ModBlocks.FALLEN_MAPLE_LEAVES.asItem(), Models.GENERATED);
+    public void generateItemModels(ItemModelGenerators itemModelGenerators) {
     }
-
 }

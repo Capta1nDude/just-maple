@@ -3,36 +3,51 @@ package net.captaindude.justmaple.datagen;
 import java.util.concurrent.CompletableFuture;
 
 import net.captaindude.justmaple.blocks.ModBlocks;
-import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
-import net.fabricmc.fabric.api.datagen.v1.provider.FabricBlockLootTableProvider;
-import net.minecraft.registry.RegistryWrapper.WrapperLookup;
+import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
+import net.fabricmc.fabric.api.datagen.v1.provider.FabricBlockLootSubProvider;
+import net.minecraft.core.HolderLookup.Provider;
 
-public class ModLootTableProvider extends FabricBlockLootTableProvider{
+public class ModLootTableProvider extends FabricBlockLootSubProvider {
 
-    public ModLootTableProvider(FabricDataOutput dataOutput, CompletableFuture<WrapperLookup> registryLookup) {
+    public ModLootTableProvider(
+            FabricPackOutput dataOutput,
+            CompletableFuture<Provider> registryLookup) {
+
         super(dataOutput, registryLookup);
     }
-    
-    // Generates loot tables for blocks
+
     @Override
     public void generate() {
-        addDrop(ModBlocks.MAPLE_LOG);
-        addDrop(ModBlocks.MAPLE_WOOD);
-        addDrop(ModBlocks.STRIPPED_MAPLE_LOG);
-        addDrop(ModBlocks.STRIPPED_MAPLE_WOOD);
-        addDrop(ModBlocks.MAPLE_PLANKS);
-        addDrop(ModBlocks.MAPLE_SAPLING);
-        addDrop(ModBlocks.FALLEN_MAPLE_LEAVES);
+        dropSelf(ModBlocks.MAPLE_LOG);
+        dropSelf(ModBlocks.MAPLE_WOOD);
+        dropSelf(ModBlocks.STRIPPED_MAPLE_LOG);
+        dropSelf(ModBlocks.STRIPPED_MAPLE_WOOD);
+        dropSelf(ModBlocks.MAPLE_PLANKS);
+        dropSelf(ModBlocks.MAPLE_SAPLING);
+        dropSelf(ModBlocks.FALLEN_MAPLE_LEAVES);
 
-        addDrop(ModBlocks.MAPLE_STAIRS);
-        addDrop(ModBlocks.MAPLE_SLAB, slabDrops(ModBlocks.MAPLE_SLAB));
-        addDrop(ModBlocks.MAPLE_FENCE);
-        addDrop(ModBlocks.MAPLE_FENCE_GATE);
-        addDrop(ModBlocks.MAPLE_DOOR, doorDrops(ModBlocks.MAPLE_DOOR));
-        addDrop(ModBlocks.MAPLE_TRAPDOOR);
-        addDrop(ModBlocks.MAPLE_BUTTON);
-        addDrop(ModBlocks.MAPLE_PRESSURE_PLATE);
+        dropSelf(ModBlocks.MAPLE_STAIRS);
 
-        addDrop(ModBlocks.MAPLE_LEAVES, leavesDrops(ModBlocks.MAPLE_LEAVES, ModBlocks.MAPLE_SAPLING, SAPLING_DROP_CHANCE));
+        add(
+                ModBlocks.MAPLE_SLAB,
+                createSlabItemTable(ModBlocks.MAPLE_SLAB));
+
+        dropSelf(ModBlocks.MAPLE_FENCE);
+        dropSelf(ModBlocks.MAPLE_FENCE_GATE);
+
+        add(
+                ModBlocks.MAPLE_DOOR,
+                createDoorTable(ModBlocks.MAPLE_DOOR));
+
+        dropSelf(ModBlocks.MAPLE_TRAPDOOR);
+        dropSelf(ModBlocks.MAPLE_BUTTON);
+        dropSelf(ModBlocks.MAPLE_PRESSURE_PLATE);
+
+        add(
+                ModBlocks.MAPLE_LEAVES,
+                createLeavesDrops(
+                        ModBlocks.MAPLE_LEAVES,
+                        ModBlocks.MAPLE_SAPLING,
+                        NORMAL_LEAVES_SAPLING_CHANCES));
     }
 }

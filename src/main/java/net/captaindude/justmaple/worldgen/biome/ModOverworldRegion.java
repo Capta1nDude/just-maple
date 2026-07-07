@@ -4,31 +4,36 @@ import java.util.function.Consumer;
 
 import com.mojang.datafixers.util.Pair;
 
-import net.minecraft.registry.Registry;
-import net.minecraft.registry.RegistryKey;
-import net.minecraft.util.Identifier;
-import net.minecraft.world.biome.Biome;
-import net.minecraft.world.biome.BiomeKeys;
-import net.minecraft.world.biome.source.util.MultiNoiseUtil.NoiseHypercube;
+import net.minecraft.core.Registry;
+import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.biome.Biomes;
+import net.minecraft.world.level.biome.Climate;
 import terrablender.api.Region;
 import terrablender.api.RegionType;
 
-// TerraBlender region class to add custom biomes to overworld generation
 public class ModOverworldRegion extends Region {
 
     public ModOverworldRegion(Identifier name, int weight) {
         super(name, RegionType.OVERWORLD, weight);
     }
 
-
     @Override
-    public void addBiomes(Registry<Biome> registry, Consumer<Pair<NoiseHypercube, RegistryKey<Biome>>> mapper) {
-        this.addModifiedVanillaOverworldBiomes(mapper, modifiedVanillaOverworldBuilder -> {
-            modifiedVanillaOverworldBuilder.replaceBiome(BiomeKeys.GROVE, ModBiomes.MAPLE_GROVE);
-        });
-        this.addModifiedVanillaOverworldBiomes(mapper, modifiedVanillaOverworldBuilder -> {
-            modifiedVanillaOverworldBuilder.replaceBiome(BiomeKeys.CHERRY_GROVE, ModBiomes.MAPLE_GROVE);
-        });
-    }
+    public void addBiomes(
+            Registry<Biome> registry,
+            Consumer<Pair<Climate.ParameterPoint, ResourceKey<Biome>>> mapper) {
 
+        addModifiedVanillaOverworldBiomes(
+                mapper,
+                builder -> {
+                    builder.replaceBiome(
+                            Biomes.GROVE,
+                            ModBiomes.MAPLE_GROVE);
+
+                    builder.replaceBiome(
+                            Biomes.CHERRY_GROVE,
+                            ModBiomes.MAPLE_GROVE);
+                });
+    }
 }

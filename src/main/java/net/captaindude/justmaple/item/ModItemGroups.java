@@ -2,38 +2,38 @@ package net.captaindude.justmaple.item;
 
 import net.captaindude.justmaple.JustMaple;
 import net.captaindude.justmaple.blocks.ModBlocks;
-import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
-import net.minecraft.item.ItemGroups;
+import net.fabricmc.fabric.api.creativetab.v1.CreativeModeTabEvents;
+import net.minecraft.world.item.CreativeModeTabs;
 
 public class ModItemGroups {
     public static void registerItemGroups() {
         JustMaple.LOGGER.info("Registering Item Groups for " + JustMaple.MOD_ID);
 
         // Adds pedestal to building block group
-        ItemGroupEvents.modifyEntriesEvent(ItemGroups.BUILDING_BLOCKS)
+        CreativeModeTabEvents.modifyOutputEvent(CreativeModeTabs.BUILDING_BLOCKS)
             .register(entries -> {
-                entries.add(ModBlocks.MAPLE_LOG);
-                entries.add(ModBlocks.MAPLE_SAPLING);
-                entries.add(ModBlocks.MAPLE_PLANKS);
-                entries.add(ModBlocks.MAPLE_WOOD);
-                entries.add(ModBlocks.STRIPPED_MAPLE_LOG);
-                entries.add(ModBlocks.STRIPPED_MAPLE_WOOD);
+                entries.accept(ModBlocks.MAPLE_LOG);
+                entries.accept(ModBlocks.MAPLE_SAPLING);
+                entries.accept(ModBlocks.MAPLE_PLANKS);
+                entries.accept(ModBlocks.MAPLE_WOOD);
+                entries.accept(ModBlocks.STRIPPED_MAPLE_LOG);
+                entries.accept(ModBlocks.STRIPPED_MAPLE_WOOD);
 
-                entries.add(ModBlocks.MAPLE_STAIRS);
-                entries.add(ModBlocks.MAPLE_SLAB);
-                entries.add(ModBlocks.MAPLE_FENCE);
-                entries.add(ModBlocks.MAPLE_FENCE_GATE);
-                entries.add(ModBlocks.MAPLE_DOOR);
-                entries.add(ModBlocks.MAPLE_TRAPDOOR);
-                entries.add(ModBlocks.MAPLE_BUTTON);
-                entries.add(ModBlocks.MAPLE_PRESSURE_PLATE);
+                entries.accept(ModBlocks.MAPLE_STAIRS);
+                entries.accept(ModBlocks.MAPLE_SLAB);
+                entries.accept(ModBlocks.MAPLE_FENCE);
+                entries.accept(ModBlocks.MAPLE_FENCE_GATE);
+                entries.accept(ModBlocks.MAPLE_DOOR);
+                entries.accept(ModBlocks.MAPLE_TRAPDOOR);
+                entries.accept(ModBlocks.MAPLE_BUTTON);
+                entries.accept(ModBlocks.MAPLE_PRESSURE_PLATE);
             });
 
-        ItemGroupEvents.modifyEntriesEvent(ItemGroups.NATURAL)
+        CreativeModeTabEvents.modifyOutputEvent(CreativeModeTabs.NATURAL_BLOCKS)
             .register(entries -> {
-                entries.add(ModBlocks.MAPLE_LEAVES);
-                entries.add(ModBlocks.FALLEN_MAPLE_LEAVES);
-                entries.add(ModBlocks.MAPLE_LOG);
+                entries.accept(ModBlocks.MAPLE_LEAVES);
+                entries.accept(ModBlocks.FALLEN_MAPLE_LEAVES);
+                entries.accept(ModBlocks.MAPLE_LOG);
             });
     }
 }
