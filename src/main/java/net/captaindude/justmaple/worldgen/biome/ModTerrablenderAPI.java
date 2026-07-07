@@ -21,6 +21,6 @@ public class ModTerrablenderAPI implements TerraBlenderApi {
         SurfaceRuleManager.addSurfaceRules(
                 SurfaceRuleManager.RuleCategory.OVERWORLD,
                 JustMaple.MOD_ID,
-                ModMaterialRules.makeRules());
+                biomes -> ModMaterialRules.makeRules());
     }
 }

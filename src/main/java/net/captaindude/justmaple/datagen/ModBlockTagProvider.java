@@ -6,9 +6,19 @@ import net.captaindude.justmaple.blocks.ModBlocks;
 import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagsProvider;
 import net.minecraft.core.HolderLookup.Provider;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.level.block.Block;
 
 public class ModBlockTagProvider extends FabricTagsProvider.BlockTagsProvider {
+
+    private static final TagKey<Block> SAPLINGS = TagKey.create(
+            Registries.BLOCK,
+            Identifier.fromNamespaceAndPath("minecraft", "saplings"));
 
     public ModBlockTagProvider(FabricPackOutput output, CompletableFuture<Provider> registriesFuture) {
         super(output, registriesFuture);
@@ -17,28 +27,32 @@ public class ModBlockTagProvider extends FabricTagsProvider.BlockTagsProvider {
     @Override
     protected void addTags(Provider wrapperLookup) {
         
-        valueLookupBuilder(BlockTags.MINEABLE_WITH_AXE)
-            .add(ModBlocks.MAPLE_LOG)
-            .add(ModBlocks.STRIPPED_MAPLE_LOG)
-            .add(ModBlocks.MAPLE_WOOD)
-            .add(ModBlocks.STRIPPED_MAPLE_WOOD)
-            .add(ModBlocks.MAPLE_PLANKS);
+        builder(BlockTags.MINEABLE_WITH_AXE)
+            .add(key(ModBlocks.MAPLE_LOG))
+            .add(key(ModBlocks.STRIPPED_MAPLE_LOG))
+            .add(key(ModBlocks.MAPLE_WOOD))
+            .add(key(ModBlocks.STRIPPED_MAPLE_WOOD))
+            .add(key(ModBlocks.MAPLE_PLANKS));
 
-        valueLookupBuilder(BlockTags.LOGS_THAT_BURN)
-            .add(ModBlocks.MAPLE_LOG)
-            .add(ModBlocks.STRIPPED_MAPLE_LOG)
-            .add(ModBlocks.MAPLE_WOOD)
-            .add(ModBlocks.STRIPPED_MAPLE_WOOD);
+        builder(BlockTags.OVERWORLD_NATURAL_LOGS)
+            .add(key(ModBlocks.MAPLE_LOG))
+            .add(key(ModBlocks.STRIPPED_MAPLE_LOG))
+            .add(key(ModBlocks.MAPLE_WOOD))
+            .add(key(ModBlocks.STRIPPED_MAPLE_WOOD));
 
         // Adds some tags for block functionality
-        valueLookupBuilder(BlockTags.WOODEN_FENCES).add(ModBlocks.MAPLE_FENCE);
-        valueLookupBuilder(BlockTags.FENCE_GATES).add(ModBlocks.MAPLE_FENCE_GATE);
-        valueLookupBuilder(BlockTags.WOODEN_DOORS).add(ModBlocks.MAPLE_DOOR);
-        valueLookupBuilder(BlockTags.WOODEN_TRAPDOORS).add(ModBlocks.MAPLE_TRAPDOOR);
-        valueLookupBuilder(BlockTags.WOODEN_BUTTONS).add(ModBlocks.MAPLE_BUTTON);
-        valueLookupBuilder(BlockTags.WOODEN_PRESSURE_PLATES).add(ModBlocks.MAPLE_PRESSURE_PLATE);
-        valueLookupBuilder(BlockTags.PLANKS).add(ModBlocks.MAPLE_PLANKS);
-        valueLookupBuilder(BlockTags.SAPLINGS).add(ModBlocks.MAPLE_SAPLING);
+        builder(BlockTags.WOODEN_FENCES).add(key(ModBlocks.MAPLE_FENCE));
+        builder(BlockTags.FENCE_GATES).add(key(ModBlocks.MAPLE_FENCE_GATE));
+        builder(BlockTags.WOODEN_DOORS).add(key(ModBlocks.MAPLE_DOOR));
+        builder(BlockTags.WOODEN_TRAPDOORS).add(key(ModBlocks.MAPLE_TRAPDOOR));
+        builder(BlockTags.WOODEN_BUTTONS).add(key(ModBlocks.MAPLE_BUTTON));
+        builder(BlockTags.WOODEN_PRESSURE_PLATES).add(key(ModBlocks.MAPLE_PRESSURE_PLATE));
+        builder(BlockTags.PLANKS).add(key(ModBlocks.MAPLE_PLANKS));
+        builder(SAPLINGS).add(key(ModBlocks.MAPLE_SAPLING));
+    }
+
+    private static ResourceKey<Block> key(Block block) {
+        return BuiltInRegistries.BLOCK.getResourceKey(block).orElseThrow();
     }
     
 }   

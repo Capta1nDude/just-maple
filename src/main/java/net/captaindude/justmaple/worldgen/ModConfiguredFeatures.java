@@ -2,6 +2,7 @@ package net.captaindude.justmaple.worldgen;
 
 import net.captaindude.justmaple.JustMaple;
 import net.captaindude.justmaple.blocks.ModBlocks;
+import net.minecraft.core.HolderGetter;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.resources.Identifier;
@@ -11,6 +12,7 @@ import net.minecraft.util.valueproviders.ConstantInt;
 import net.minecraft.util.valueproviders.IntProvider;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.util.valueproviders.WeightedListInt;
+import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
@@ -40,7 +42,7 @@ public final class ModConfiguredFeatures {
                 context,
                 MAPLE_KEY,
                 Feature.TREE,
-                maple().build());
+                maple(context.lookup(Registries.BIOME)).build());
 
         register(
                 context,
@@ -67,7 +69,7 @@ public final class ModConfiguredFeatures {
                 new ConfiguredFeature<>(feature, config));
     }
 
-    private static TreeConfiguration.TreeConfigurationBuilder maple() {
+    private static TreeConfiguration.TreeConfigurationBuilder maple(HolderGetter<Biome> biomes) {
         return new TreeConfiguration.TreeConfigurationBuilder(
                 BlockStateProvider.simple(ModBlocks.MAPLE_LOG),
 
@@ -98,7 +100,9 @@ public final class ModConfiguredFeatures {
                         0.16666667F,
                         0.33333334F),
 
-                new TwoLayersFeatureSize(1, 0, 2)).ignoreVines();
+                new TwoLayersFeatureSize(1, 0, 2),
+
+                TreeConfiguration.defaultPlaceBelowTreeTrunkProvider(biomes)).ignoreVines();
     }
 
     private static SimpleBlockConfiguration createFlowerbedSimpleBlockConfiguration(
