@@ -19,13 +19,13 @@ public class ModItemTagProvider extends FabricTagProvider.ItemTagProvider {
     @Override
     protected void configure(RegistryWrapper.WrapperLookup wrapperLookup) {
         // Items that can be transformed via the Magic Block into diamonds
-        getOrCreateTagBuilder(ItemTags.LOGS_THAT_BURN)
+        valueLookupBuilder(ItemTags.LOGS_THAT_BURN)
             .addTag(ModItemTags.MAPLE_LOGS);
 
-        getOrCreateTagBuilder(ItemTags.PLANKS)
+        valueLookupBuilder(ItemTags.PLANKS)
             .add(ModBlocks.MAPLE_PLANKS.asItem());
 
-        getOrCreateTagBuilder(ModItemTags.MAPLE_LOGS)
+        valueLookupBuilder(ModItemTags.MAPLE_LOGS)
             .add(ModBlocks.MAPLE_LOG.asItem())
             .add(ModBlocks.STRIPPED_MAPLE_LOG.asItem())
             .add(ModBlocks.MAPLE_WOOD.asItem())
