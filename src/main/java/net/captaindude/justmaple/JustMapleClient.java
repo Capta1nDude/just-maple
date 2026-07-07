@@ -21,7 +21,7 @@ public class JustMapleClient implements ClientModInitializer {
 		// Registers maple leaves particle
 		ParticleFactoryRegistry.getInstance().register(
 			ModParticles.MAPLE_LEAVES,
-			sprites -> (type, world, x, y, z, vx, vy, vz) -> new MapleLeavesParticle(world, x, y, z, sprites)
+			sprites -> (type, world, x, y, z, vx, vy, vz, random) -> new MapleLeavesParticle(world, x, y, z, sprites, random)
 		);
 	}
 }
