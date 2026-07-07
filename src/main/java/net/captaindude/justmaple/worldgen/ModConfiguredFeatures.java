@@ -6,12 +6,12 @@ import net.captaindude.justmaple.JustMaple;
 import net.captaindude.justmaple.blocks.ModBlocks;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.FlowerbedBlock;
 import net.minecraft.registry.Registerable;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
+import net.minecraft.state.property.Properties;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.collection.DataPool;
+import net.minecraft.util.collection.Pool;
 import net.minecraft.util.math.intprovider.ConstantIntProvider;
 import net.minecraft.util.math.intprovider.IntProvider;
 import net.minecraft.util.math.intprovider.UniformIntProvider;
@@ -64,11 +64,15 @@ public final class ModConfiguredFeatures {
     // Defines the maple tree - copied from cherry tree
     private static TreeFeatureConfig.Builder maple() {
         return (new TreeFeatureConfig.Builder(BlockStateProvider.of(ModBlocks.MAPLE_LOG),
-            new CherryTrunkPlacer(7, 1, 0, new WeightedListIntProvider(DataPool.<IntProvider>builder().add(ConstantIntProvider.create(1), 1)
-            .add(ConstantIntProvider.create(2), 1).add(ConstantIntProvider.create(3), 1).build()), UniformIntProvider.create(2, 4),
-            UniformIntProvider.create(-4, -3), UniformIntProvider.create(-1, 0)), BlockStateProvider.of(ModBlocks.MAPLE_LEAVES),
-            new CherryFoliagePlacer(ConstantIntProvider.create(4), ConstantIntProvider.create(0),
-            ConstantIntProvider.create(5), 0.25F, 0.5F, 0.16666667F, 0.33333334F), new TwoLayersFeatureSize(1, 0, 2))).ignoreVines();
+                new CherryTrunkPlacer(7, 1, 0,
+                        new WeightedListIntProvider(Pool.<IntProvider>builder().add(ConstantIntProvider.create(1), 1)
+                                .add(ConstantIntProvider.create(2), 1).add(ConstantIntProvider.create(3), 1).build()),
+                        UniformIntProvider.create(2, 4),
+                        UniformIntProvider.create(-4, -3), UniformIntProvider.create(-1, 0)),
+                BlockStateProvider.of(ModBlocks.MAPLE_LEAVES),
+                new CherryFoliagePlacer(ConstantIntProvider.create(4), ConstantIntProvider.create(0),
+                        ConstantIntProvider.create(5), 0.25F, 0.5F, 0.16666667F, 0.33333334F),
+                new TwoLayersFeatureSize(1, 0, 2))).ignoreVines();
     }
 
     private static RandomPatchFeatureConfig createFlowerbedRandomPatchFeatureConfig(@NotNull Block block, int tries) {
@@ -78,11 +82,11 @@ public final class ModConfiguredFeatures {
                 Feature.SIMPLE_BLOCK,
                 new SimpleBlockFeatureConfig(
                     new WeightedBlockStateProvider(
-                        DataPool.<BlockState>builder()
-                            .add(block.getDefaultState().with(FlowerbedBlock.FLOWER_AMOUNT, 1), 4)
-                            .add(block.getDefaultState().with(FlowerbedBlock.FLOWER_AMOUNT, 2), 3)
-                            .add(block.getDefaultState().with(FlowerbedBlock.FLOWER_AMOUNT, 3), 2)
-                            .add(block.getDefaultState().with(FlowerbedBlock.FLOWER_AMOUNT, 4), 1)
+                        Pool.<BlockState>builder()
+                            .add(block.getDefaultState().with(Properties.FLOWER_AMOUNT, 1), 4)
+                            .add(block.getDefaultState().with(Properties.FLOWER_AMOUNT, 2), 3)
+                            .add(block.getDefaultState().with(Properties.FLOWER_AMOUNT, 3), 2)
+                            .add(block.getDefaultState().with(Properties.FLOWER_AMOUNT, 4), 1)
                             .build()
                     )
                 )

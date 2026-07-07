@@ -1,6 +1,7 @@
 package net.captaindude.justmaple.blocks;
 
 import net.captaindude.justmaple.JustMaple;
+import net.captaindude.justmaple.blocks.custom.MapleFlowerbedBlock;
 import net.captaindude.justmaple.blocks.custom.MapleLeavesBlock;
 import net.captaindude.justmaple.worldgen.tree.ModSaplingGenerators;
 import net.minecraft.block.AbstractBlock;
@@ -11,7 +12,6 @@ import net.minecraft.block.ButtonBlock;
 import net.minecraft.block.DoorBlock;
 import net.minecraft.block.FenceBlock;
 import net.minecraft.block.FenceGateBlock;
-import net.minecraft.block.FlowerbedBlock;
 import net.minecraft.block.PillarBlock;
 import net.minecraft.block.PressurePlateBlock;
 import net.minecraft.block.SaplingBlock;
@@ -48,7 +48,7 @@ public class ModBlocks {
             AbstractBlock.Settings.copy(Blocks.OAK_SAPLING).nonOpaque())));
 
     public static final Block FALLEN_MAPLE_LEAVES = registerBlock("fallen_maple_leaves", 
-        new FlowerbedBlock(blockSettings("fallen_maple_leaves", AbstractBlock.Settings.copy(Blocks.PINK_PETALS))));
+        new MapleFlowerbedBlock(blockSettings("fallen_maple_leaves", AbstractBlock.Settings.copy(Blocks.PINK_PETALS))));
 
     // Maple stairs
     public static final Block MAPLE_STAIRS = registerBlock("maple_stairs",

@@ -4,10 +4,10 @@ import java.util.List;
 
 import net.captaindude.justmaple.JustMaple;
 import net.captaindude.justmaple.blocks.ModBlocks;
-import net.minecraft.block.FlowerbedBlock;
 import net.minecraft.registry.Registerable;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
+import net.minecraft.state.property.Properties;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.Heightmap;
@@ -53,9 +53,9 @@ public class ModPlacedFeatures {
             SquarePlacementModifier.of(),
             HeightmapPlacementModifier.of(Heightmap.Type.WORLD_SURFACE_WG),
             BiomePlacementModifier.of(),
-            BlockFilterPlacementModifier.of(
+                BlockFilterPlacementModifier.of(
                 BlockPredicate.wouldSurvive(
-                    ModBlocks.FALLEN_MAPLE_LEAVES.getDefaultState().with(FlowerbedBlock.FLOWER_AMOUNT, 1),
+                    ModBlocks.FALLEN_MAPLE_LEAVES.getDefaultState().with(Properties.FLOWER_AMOUNT, 1),
                     BlockPos.ORIGIN
                 )
             )
