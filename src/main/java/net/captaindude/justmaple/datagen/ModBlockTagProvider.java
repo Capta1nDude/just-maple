@@ -19,6 +19,9 @@ public class ModBlockTagProvider extends FabricTagsProvider.BlockTagsProvider {
     private static final TagKey<Block> SAPLINGS = TagKey.create(
             Registries.BLOCK,
             Identifier.fromNamespaceAndPath("minecraft", "saplings"));
+    private static final TagKey<Block> LOGS_THAT_BURN = TagKey.create(
+            Registries.BLOCK,
+            Identifier.fromNamespaceAndPath("minecraft", "logs_that_burn"));
 
     public ModBlockTagProvider(FabricPackOutput output, CompletableFuture<Provider> registriesFuture) {
         super(output, registriesFuture);
@@ -35,6 +38,18 @@ public class ModBlockTagProvider extends FabricTagsProvider.BlockTagsProvider {
             .add(key(ModBlocks.MAPLE_PLANKS));
 
         builder(BlockTags.OVERWORLD_NATURAL_LOGS)
+            .add(key(ModBlocks.MAPLE_LOG))
+            .add(key(ModBlocks.STRIPPED_MAPLE_LOG))
+            .add(key(ModBlocks.MAPLE_WOOD))
+            .add(key(ModBlocks.STRIPPED_MAPLE_WOOD));
+
+        builder(BlockTags.LOGS)
+            .add(key(ModBlocks.MAPLE_LOG))
+            .add(key(ModBlocks.STRIPPED_MAPLE_LOG))
+            .add(key(ModBlocks.MAPLE_WOOD))
+            .add(key(ModBlocks.STRIPPED_MAPLE_WOOD));
+
+        builder(LOGS_THAT_BURN)
             .add(key(ModBlocks.MAPLE_LOG))
             .add(key(ModBlocks.STRIPPED_MAPLE_LOG))
             .add(key(ModBlocks.MAPLE_WOOD))
