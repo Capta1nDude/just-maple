@@ -6,9 +6,16 @@ import net.captaindude.justmaple.blocks.ModBlocks;
 import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagsProvider;
 import net.minecraft.core.HolderLookup.Provider;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.Identifier;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.level.block.Block;
 
 public class ModBlockTagProvider extends FabricTagsProvider.BlockTagsProvider {
+    private static final TagKey<Block> LOGS_THAT_BURN = TagKey.create(
+            Registries.BLOCK,
+            Identifier.fromNamespaceAndPath("minecraft", "logs_that_burn"));
 
     public ModBlockTagProvider(FabricPackOutput output, CompletableFuture<Provider> registriesFuture) {
         super(output, registriesFuture);
@@ -25,6 +32,18 @@ public class ModBlockTagProvider extends FabricTagsProvider.BlockTagsProvider {
             .add(ModBlocks.MAPLE_PLANKS);
 
         valueLookupBuilder(BlockTags.LOGS_THAT_BURN)
+            .add(ModBlocks.MAPLE_LOG)
+            .add(ModBlocks.STRIPPED_MAPLE_LOG)
+            .add(ModBlocks.MAPLE_WOOD)
+            .add(ModBlocks.STRIPPED_MAPLE_WOOD);
+
+        valueLookupBuilder(BlockTags.LOGS)
+            .add(ModBlocks.MAPLE_LOG)
+            .add(ModBlocks.STRIPPED_MAPLE_LOG)
+            .add(ModBlocks.MAPLE_WOOD)
+            .add(ModBlocks.STRIPPED_MAPLE_WOOD);
+
+        valueLookupBuilder(LOGS_THAT_BURN)
             .add(ModBlocks.MAPLE_LOG)
             .add(ModBlocks.STRIPPED_MAPLE_LOG)
             .add(ModBlocks.MAPLE_WOOD)
